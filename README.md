@@ -1,2 +1,3 @@
-# ImersaoFullcycle19
-Imersão Fullcycle 19 - Plataforma de streaming de vídeos
+# Imersão Fullcycle 19 - Plataforma de streaming de vídeos
+
+![alt text](./arquitetura_projeto.png)
