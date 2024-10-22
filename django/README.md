@@ -48,4 +48,25 @@ $ python manage.py migrate
 
 # Iniciar servidor:
 $ python manage.py runserver
+
+# ACESSO PELO NAVEGADOR
+http://localhost:8000/admin
+```
+# DJANGO
+
+### VER COMANDOS
+
+``` bash
+# Mostra a lista de comandos
+$ python .\manage.py
+
+# Cria todas as tabelas:
+$ python manage.py migrate
+
+# Criar SuperUser para a database
+$ python manage.py createsuperuser
+  #USUARIO E SENHA
+  - USER: admin
+  - MAIL: admin@admin.com
+  - PASS: admin
 ```
