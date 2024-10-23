@@ -70,3 +70,15 @@ $ python manage.py createsuperuser
   - MAIL: admin@admin.com
   - PASS: admin
 ```
+
+
+``` bash
+# Criar container
+$ docker compose up
+
+# PGAdmin
+$ http://localhost:5050/
+
+# Criar modulo core
+$ django-admin startapp core
+```
