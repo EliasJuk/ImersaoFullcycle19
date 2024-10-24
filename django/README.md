@@ -81,4 +81,14 @@ $ http://localhost:5050/
 
 # Criar modulo core
 $ django-admin startapp core
+
+# Cria as migrações
+$ python manage.py makemigrations
+  - core\migrations\0001_initial.py
+    + Create model Tag
+    + Create model Video
+    + Create model VideoMedia
+
+# Executar migração
+$ python manage.py migrate
 ```
