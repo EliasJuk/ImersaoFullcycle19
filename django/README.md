@@ -1,4 +1,17 @@
-## Como rodar o projeto
+# Como rodar o projeto
+
+``` bash
+# Inicia o servidor do Django
+$ python manage.py runserver
+
+# Inicia o container
+$ docker compose up
+
+http://localhost:8000/  #Django  - admin@admin    | admin
+http://localhost:5050/  #PGAdmin - admin@user.com | secret
+```
+
+---
 
 ## Requisitos
 - Python 3.8+
@@ -7,33 +20,42 @@
 ## Instalação
 1. Crie um ambiente virtual:
 
-    ```bash
-    # INSTALAR E CRIAR O AMBINTE VIRTUAL
-    $ pip install pipenv
-    $ python -m venv venv
-    ```
+```bash
+  # INSTALAR E CRIAR O AMBINTE VIRTUAL
 
-    ```bash
-    # BASH
-    $ .\venv\Scripts\activate.bat     # ENTRAR DO AMBIENTE VIRTUAL DO PYTHON
-    $ .\venv\Scripts\deactivate.bat   # SAIR DO AMBIENTE VIRTUAL DO PYTHON
+  # Habilita a criação do ambiente virtual dentro do diretório do projeto
+  $ set PIPENV_VENV_IN_PROJECT=1
 
-    # POWERSHELL
-    $ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser #Permitir execução scripts locais
-    $ .\venv\Scripts\Activate.ps1
-   ```
+  # Instala o Pipenv, que é uma ferramenta para gerenciar ambientes virtuais e dependências em projetos Python
+  $ pip install pipenv
+
+  # Cria um novo ambiente virtual e especifica a versão do Python a ser utilizada (3.12)
+  $ pipenv --python 3.12
+
+  # Ativa o ambiente virtual criado pelo Pipenv
+  $ pipenv shell
+
+  # Instala o Django no ambiente virtual
+  $ pipenv install django
+
+  # Instala todas as dependências listadas no Pipfile.lock ou no Pipfile
+  $ pipenv install
+
+  # Exibe a árvore de dependências instaladas, mostrando quais pacotes estão no ambiente
+  $ pipenv graph
+
+  # Mostra o caminho do executável Python que está sendo usado no ambiente virtual
+  $ which python
+
+  # Sai do ambiente virtual
+  $ exit
+```
 
 ## Dependências
 
-  ```Python
-  # Instale as dependências:
-  $ pip install -r requirements.txt
-  ```
-
-  ```Python
-  # Gerar o arquivo de dependências:
-  $ pip freeze > requirements.txt
-  ```
+  - pipenv install Django
+  - pipenv install psycopg2-binary
+  - pipenv install Pillow
 
 ---
 
@@ -70,7 +92,6 @@ $ python manage.py createsuperuser
   - MAIL: admin@admin.com
   - PASS: admin
 ```
-
 
 ``` bash
 # Criar container
