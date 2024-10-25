@@ -1,18 +1,18 @@
 from django.contrib import admin
-from core.models import Video, Tag, VideoMedia
-
-#class VideoMediaInline(admin.StackedInline):
-#  model = VideoMedia
-#  verbose_name = 'Mídia'
-#  max_num = 1
-#  min_num = 1
-#  can_delete = False
+from django.urls import path
+from django.shortcuts import render
+from core.models import Video, Tag
 
 class VideoAdmin(admin.ModelAdmin):
-  #inlines = [VideoMediaInline]
-  pass
+  def get_urls(self):
+    urls = super().get_urls()
+    custom_urls = [
+      path('<int:id>/upload-video', self.upload_video, name='core_video_create')
+    ]
+    return custom_urls + urls
 
-# Register your models here.
-admin.site.register(Video)
+  def upload_video(self, request, id):
+    return render(request, 'admin/core/upload_video.html')
+
+admin.site.register(Video, VideoAdmin)
 admin.site.register(Tag)
-admin.site.register(VideoMedia)
