@@ -7,7 +7,7 @@ from django.http import HttpRequest, JsonResponse
 from django.contrib.auth.admin import csrf_protect_m
 
 from .form import VideoChunkUploadForm
-from .services import VideoService
+from .services import VideoService, create_video_service_factory
 
 class VideoAdmin(admin.ModelAdmin):
 	list_display = ('title', 'published_at', 'is_published', 'num_likes', 'num_views', 'redirect_to_upload', )
@@ -35,7 +35,8 @@ class VideoAdmin(admin.ModelAdmin):
 			if not form.is_valid():
 				return JsonResponse({'error': form.errors}, status=400)
 
-			VideoService().process_upload(
+			VideoService = create_video_service_factory()
+			VideoService.process_upload(
 				video_id=id,
 				chunk_index=form.cleaned_data['chunkIndex'],
 				chunk=form.cleaned_data['chunk'].read()
@@ -48,7 +49,7 @@ class VideoAdmin(admin.ModelAdmin):
 		return render(request, 'admin/core/upload_video.html', context)
 
 	def finish_upload(self, request, id):
-		return render(request, 'admin/core/final_upload.html')
+		return render(request, 'admin/core/final_upload.html', id)
 
 admin.site.register(Video, VideoAdmin)
 admin.site.register(Tag)
