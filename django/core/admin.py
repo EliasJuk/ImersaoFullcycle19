@@ -45,7 +45,7 @@ class VideoAdmin(admin.ModelAdmin):
 			id =id
 		)
 
-		return render(request, 'admin/core/upload_video.html', {'video': video})
+		return render(request, 'admin/core/upload_video.html', context)
 
 	def finish_upload(self, request, id):
 		return render(request, 'admin/core/final_upload.html')
