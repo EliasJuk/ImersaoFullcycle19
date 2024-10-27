@@ -132,7 +132,10 @@ $ python manage.py runserver
 http://localhost:8000/admin
 ```
 
-python manage.py shell 
 
+pipenv shell
+python manage.py shell 
 from core.models import Video
 Video.objects.get(id=1)
+Video.objects.get(id=1).video_media
+Video.objects.get(id=1).video_media.status
