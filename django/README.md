@@ -131,3 +131,8 @@ $ python manage.py runserver
 # ACESSO PELO NAVEGADOR
 http://localhost:8000/admin
 ```
+
+python manage.py shell 
+
+from core.models import Video
+Video.objects.get(id=1)
