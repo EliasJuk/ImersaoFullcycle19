@@ -1,4 +1,6 @@
 services:
+
+  # GOLANG
   go_app_dev:
     build:
       context: .
@@ -8,6 +10,29 @@ services:
       - external-storage:/media/uploads
     tty: true
     stdin_open: true
+  
+  #POSTGES
+  postgres:
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "converter"
+    volumes:
+      - .docker/postgres:/var/lib/postgresql/data
+
+  # PGADMIN
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_converter
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@test.com
+      PGADMIN_DEFAULT_PASSWORD: test
 
 volumes:
   external-storage:
