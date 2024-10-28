@@ -1,6 +1,7 @@
 package converter
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log/slog"
@@ -13,10 +14,14 @@ import (
 	"time"
 )
 
-type VideoConverter struct{}
+type VideoConverter struct {
+	db *sql.DB
+}
 
-func NewVideoConverter() *VideoConverter {
-	return &VideoConverter{}
+func NewVideoConverter(db *sql.DB) *VideoConverter {
+	return &VideoConverter{
+		db: db,
+	}
 }
 
 // {"video_id": 1, "path": "media/uploads/1"}
@@ -33,11 +38,23 @@ func (vc *VideoConverter) Handle(msg []byte) {
 		return
 	}
 
+	if IsProcessed(vc.db, task.VideoID) {
+		slog.Warn("Video already processed", slog.Int("video_id", task.VideoID))
+		return
+	}
+
 	err = vc.processVideo(&task)
 	if err != nil {
 		vc.logError(task, "failed to unmarshal task", err)
 		return
 	}
+
+	err = MarkProcessed(vc.db, task.VideoID)
+	if err != nil {
+		vc.logError(task, "failed to mark video as processed", err)
+		return
+	}
+	slog.Info("Video marked as processed", slog.Int("video_id", task.VideoID))
 }
 
 func (vc *VideoConverter) processVideo(task *VideoTask) error {
@@ -98,7 +115,7 @@ func (vc *VideoConverter) logError(task VideoTask, message string, err error) {
 	slog.Error("processing error", slog.String("error_details", string(serializedError)))
 
 	// Todo: register error on database
-
+	RegisterError(vc.db, errorData, err)
 }
 
 func (vc *VideoConverter) extractNumber(fileName string) int {
