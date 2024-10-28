@@ -26,6 +26,13 @@ func (vc *VideoConverter) Handle(msg []byte) {
 	err := json.Unmarshal(msg, &task)
 	if err != nil {
 		vc.logError(task, "failed to unmasrshal task", err)
+		return
+	}
+
+	err = vc.processVideo(&task)
+	if err != nil {
+		vc.logError(task, "failed to unmarshal task", err)
+		return
 	}
 }
 
@@ -66,6 +73,7 @@ func (vc *VideoConverter) processVideo(task *VideoTask) error {
 	slog.Info("Video converted to mpeg-dash", slog.String("path", mpegDashPath))
 
 	// REMOVE O ARQUIVO APOS CONVERTER
+	slog.Info("Removing merged file", slog.String("path", mergedFile))
 	err = os.Remove((mergedFile))
 	if err != nil {
 		vc.logError(*task, "failed to remove merged file", err)
