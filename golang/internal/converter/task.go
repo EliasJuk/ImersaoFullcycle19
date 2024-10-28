@@ -15,6 +15,10 @@ import (
 
 type VideoConverter struct{}
 
+func NewVideoConverter() *VideoConverter {
+	return &VideoConverter{}
+}
+
 // {"video_id": 1, "path": "media/uploads/1"}
 type VideoTask struct {
 	VideoID int    `json:"video_id"`
