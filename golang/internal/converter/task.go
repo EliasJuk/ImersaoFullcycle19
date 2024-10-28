@@ -36,8 +36,16 @@ func (vc *VideoConverter) processVideo(task *VideoTask) error {
 	err := vc.mergeChunks(task.Path, mergedFile)
 	if err != nil {
 		vc.logError(*task, "failed to unmasrshal task", err)
-		return fmt.Errorf("failed to merge chunks: %v", err)
-		//return err
+		//return fmt.Errorf("failed to merge chunks: %v", err)
+		return err
+	}
+
+	// CRIA O DIRETORIO MPEG-DASH
+	slog.Info("Creating mpeg-dash", slog.String("path", task.Path))
+	err = os.MkdirAll(mpegDashPath, os.ModePerm)
+	if err != nil {
+		vc.logError(*task, "failed to create mpeg-dash directory", err)
+		return err
 	}
 }
 
@@ -56,11 +64,10 @@ func (vc *VideoConverter) logError(task VideoTask, message string, err error) {
 
 }
 
-// Função para extrair o primeiro número encontrado no nome do arquivo
 func (vc *VideoConverter) extractNumber(fileName string) int {
 	re := regexp.MustCompile(`\d+`)
-	numStr := re.FindString(filepath.Base(fileName)) //string
-	num, err := strconv.Atoi(numStr)                 //retorna um erro ou o numero presente na string
+	numStr := re.FindString(filepath.Base(fileName))
+	num, err := strconv.Atoi(numStr)
 	if err != nil {
 		return -1
 	}
