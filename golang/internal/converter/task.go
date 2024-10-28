@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"sort"
@@ -47,6 +48,30 @@ func (vc *VideoConverter) processVideo(task *VideoTask) error {
 		vc.logError(*task, "failed to create mpeg-dash directory", err)
 		return err
 	}
+
+	// CONVERTE O VIDEO
+	slog.Info("Converting video to mpeg-dash", slog.String("path", task.Path))
+	ffmpegCmd := exec.Command(
+		"ffmpeg", "-i", mergedFile,
+		"-f", "dash",
+		filepath.Join(mpegDashPath, "output.mpd"),
+	)
+
+	// TRATAR ERROS
+	output, err := ffmpegCmd.CombinedOutput()
+	if err != nil {
+		vc.logError(*task, "failed to convert to mpeg-dash, output: "+string(output), err)
+		return err
+	}
+	slog.Info("Video converted to mpeg-dash", slog.String("path", mpegDashPath))
+
+	// REMOVE O ARQUIVO APOS CONVERTER
+	err = os.Remove((mergedFile))
+	if err != nil {
+		vc.logError(*task, "failed to remove merged file", err)
+	}
+
+	return nil
 }
 
 // PADRONIZA OUTPUTS DE ERROS
