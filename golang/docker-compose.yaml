@@ -37,6 +37,16 @@ services:
       PGADMIN_DEFAULT_EMAIL: test@test.com
       PGADMIN_DEFAULT_PASSWORD: test
 
+  # RABBIMQ
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBIMQ_DEFAULT_USER: "guest"
+      RABBIMQ_DEFAULT_PASS: "guest"
+
 volumes:
   external-storage:
     external: true
