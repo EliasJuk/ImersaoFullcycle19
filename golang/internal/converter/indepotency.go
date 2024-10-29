@@ -19,7 +19,7 @@ func IsProcessed(db *sql.DB, videoID int) bool {
 }
 
 func MarkProcessed(db *sql.DB, videoID int) error {
-	query := "Inser info processed_video (video_id, status, processed_at) value ($1, $2, $3)"
+	query := "Insert info processed_video (video_id, status, processed_at) value ($1, $2, $3)"
 	_, err := db.Exec(query, videoID, "success", time.Now())
 	if err != nil {
 		slog.Error("Error marking video as proccess", slog.Int("video_id", videoID)) //slog.String("error", err.String())
