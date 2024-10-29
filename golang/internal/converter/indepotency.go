@@ -9,7 +9,7 @@ import (
 
 func IsProcessed(db *sql.DB, videoID int) bool {
 	var isProcessed bool
-	query := "SELECT EXIST(SELECT 1 FROM processed_video where video_id = $1 and status='success')"
+	query := "SELECT EXISTS(SELECT 1 FROM processed_videos where video_id = $1 and status='success')"
 	err := db.QueryRow(query, videoID).Scan(&isProcessed)
 	if err != nil {
 		slog.Error("Error checking if video is processed", slog.Int("video_id", videoID)) //slog.Error(err)
