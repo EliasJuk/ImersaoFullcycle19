@@ -48,5 +48,5 @@ func main() {
 	}
 
 	vc := converter.NewVideoConverter(db)
-	vc.Handle([]byte(`{"video_id": 1, "path": "/media/uploads/1"}`))
+	vc.Handle([]byte(`{"video_id": 5, "path": "/media/uploads/5"}`))
 }
